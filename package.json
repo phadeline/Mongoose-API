@@ -1,0 +1,31 @@
+{
+  "name": "mongoose-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index",
+    "seed": "node utils/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phadeline/Mongoose-API.git"
+  },
+  "keywords": [],
+  "author": "Phadeline Evra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phadeline/Mongoose-API/issues"
+  },
+  "homepage": "https://github.com/phadeline/Mongoose-API#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13",
+    "mongoose-unique-validator": "3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
+  }
+}
