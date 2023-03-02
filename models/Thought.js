@@ -2,9 +2,9 @@ const { Schema, model } = require("mongoose");
 
 const Reaction = require("./Reaction");
 
-function dateFunction (value){
-    return value.toLocaleDateString();
-   }
+function dateFunction(value) {
+  return value.toLocaleDateString();
+}
 
 const thoughtSchema = new Schema(
   {
@@ -17,13 +17,13 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: date => dateFunction(date)
+      get: (date) => dateFunction(date),
     },
     username: [
       {
         type: String,
         required: true,
-        // ref: "user",
+        ref: "user",
       },
     ],
     reactions: [Reaction],
@@ -40,6 +40,6 @@ thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
-const Thought = model('thought', thoughtSchema);
+const Thought = model("thought", thoughtSchema);
 
 module.exports = Thought;
