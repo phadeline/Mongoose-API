@@ -1,3 +1,5 @@
+const reactionSchema = require("../models/Reaction");
+
 const username = [
   "Aaran",
   "Aaren",
@@ -25,7 +27,6 @@ const username = [
   "Smith",
   "Jones",
   "Coollastname",
-  "enter_name_here",
   "Ze",
   "Zechariah",
   "Zeek",
@@ -80,7 +81,6 @@ const thoughts = [
   "Stupid Social Media App",
   "Notes",
   "Messages",
-  "Email",
   "Compass",
   "Firefox",
   "Running app",
@@ -120,19 +120,48 @@ const reactions = [
 ];
 
 const getRandomArrItem = (item) => {
-  item[Math.floor(Math.random() * item.length)];
+  return item[Math.floor(Math.random() * item.length)];
 };
 
 const genRandomIndex = (arr) => Math.floor(Math.random() * arr.length);
 
-
 const getRandomUsername = () => {
-    return getRandomArrItem(username);
+  return `${getRandomArrItem(username)} ${getRandomArrItem(username)} `;
 };
 //ThoughtSchema => ThoughtText: In seed.js get a random thought by calling getRandomarrayitem(thoughts)
 //ThoughtSchema => get username in seed.js after pushing users. tags: [tags[genRandomIndex(tags)]._id] excersice 24
 
 //Reaction
+const getRandomReaction = (int) => {
+  if (int === 1) {
+    return getRandomArrItem(reactions);
+  }
 
+  const results = [];
+  for (let i = 0; i < int; i++) {
+    results.push({
+      reactionBody: getRandomArrItem(reactions),
+      username: getRandomUsername(),
+    });
+  }
+  return results;
+};
 
-module.exports = {getRandomUsername, getRandomArrItem, genRandomIndex}
+const getRandomThought = (int) => {
+  let results = [];
+  for (let i = 0; i < int; i++) {
+    results.push({
+      thoughText: getRandomArrItem(thoughts),
+      username: getRandomUsername(),
+      reactions: [...getRandomReaction(2)],
+    });
+  }
+  return results;
+};
+
+module.exports = {
+  getRandomUsername,
+  getRandomArrItem,
+  genRandomIndex,
+  getRandomThought,
+};

@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
-function dateFunction (value){
- return value.toLocaleDateString();
+function dateFunction(value) {
+  return value.toLocaleDateString();
 }
 
 const reactionSchema = new Schema(
@@ -19,21 +19,23 @@ const reactionSchema = new Schema(
     username: {
       type: String,
       required: true,
-      ref: 'user'
     },
     createdAt: {
       type: Date,
       default: Date.now,
-      get: date => dateFunction(date)
+      get: (date) => dateFunction(date),
     },
   },
   {
     toJSON: {
       getters: true,
-      virtuals: true
+      virtuals: true,
     },
     id: false,
   }
 );
+
+
+
 
 module.exports = reactionSchema;

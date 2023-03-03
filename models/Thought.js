@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const Reaction = require("./Reaction");
+const reactionSchema = require("./Reaction");
 
 function dateFunction(value) {
   return value.toLocaleDateString();
@@ -23,10 +23,9 @@ const thoughtSchema = new Schema(
       {
         type: String,
         required: true,
-        ref: "user",
       },
     ],
-    reactions: [Reaction],
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
