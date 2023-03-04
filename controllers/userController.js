@@ -3,24 +3,21 @@ const { User, Thought } = require("../models");
 module.exports = {
   getUsers(req, res) {
     User.find()
+      .populate("thoughts")
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
 
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .populate({
-        path: "thought",
-        select: "__v",
-      })
-      .populate({ path: "user", select: "__v" })
+      .populate("thoughts")
+      .populate("friends")
       .then((users) =>
         !users
           ? res.status(404).json({ message: "No user with that id!" })
           : res.json(users)
       )
       .catch((err) => {
-        console.err({ message: err });
         return res.status(500).json(err);
       });
   },
@@ -53,9 +50,9 @@ module.exports = {
       .then((user) =>
         !user
           ? res.status(400).json({ message: "No user with that ID!" })
-          : res
-              .status(200)
-              .json({ message: `user: ${req.params.id} Successfully deleted` })
+          : res.status(200).json({
+              message: `user: ${req.params.userId} Successfully deleted`,
+            })
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -75,10 +72,10 @@ module.exports = {
   },
 
   deleteFriend(req, res) {
-    User.findOneAndDelete(
+    User.findOneAndUpdate(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
-      { new: true }
+      { runValidators: true, new: true }
     )
       .then((user) =>
         !user

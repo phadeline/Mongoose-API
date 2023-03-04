@@ -1,6 +1,6 @@
 const { connect, connection } = require("mongoose");
-const mongoose = require("mongoose");
-mongoose.set("strictQuery", true);
+// const mongoose = require("mongoose");
+// mongoose.set("strictQuery", true);
 
 connect("mongodb://localhost/socialNetwork", {
   useNewUrlParser: true,

@@ -8,12 +8,12 @@ module.exports = {
   },
 
   getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.id })
+    Thought.findOne({ _id: req.params.thoughtId })
 
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: "no thought found with that Id" })
-          : res.status(200).json({ message: "thought Deleted!" })
+          : res.status(200).json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
@@ -22,15 +22,15 @@ module.exports = {
     Thought.create(req.body)
       .then((thought) => {
         return User.findOneAndUpdate(
-          { username: req.body.username },
+          { _id: req.params.userId },
           { $addToSet: { thougths: thought._id } },
           { runValidators: true, new: true }
-        ).then((userUpdate) =>
-          !userUpdate
+        ).then((thought) =>
+          !thought
             ? res
                 .status(400)
                 .json({ message: "Could not find username to update User" })
-            : res.status(200).json({ message: "userdata updated!" })
+            : res.status(200).json({ message: "thought created" })
         );
       })
       .catch((err) => {
@@ -41,7 +41,7 @@ module.exports = {
 
   updateThought(req, res) {
     Thought.findOneAndUpdate(
-      { _id: req.params.thoughId },
+      { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
@@ -58,14 +58,14 @@ module.exports = {
 
   deleteThought(req, res) {
     Thought.findOneAndDelete({
-      _id: req.params.id,
+      _id: req.params.thoughtId,
     })
       .then((thought) => {
         if (!thought) {
           return res.status(404).json({ message: "No thought with this id!" });
         }
         return User.findOneAndUpdate(
-          { thoughts: req.params.thoughId },
+          { thoughts: req.params.thoughtId },
           { $pull: { thoughts: req.params.thoughtId } },
           { new: true }
         ).then((thought) =>
@@ -73,7 +73,9 @@ module.exports = {
             ? res
                 .status(400)
                 .json({ message: "Thought created but no user was found" })
-            : res.status(200).json({ message: "thought updated in user" })
+            : res
+                .status(200)
+                .json({ message: "thought deleted and updated in user" })
         );
       })
       .catch((err) => {
@@ -104,9 +106,9 @@ module.exports = {
   deleteReaction(req, res) {
     Thought.findOneAndUpdate(
       {
-        _id: req.params.id,
+        _id: req.params.thoughtId,
       },
-      { $pull: { reactions: req.params.reactionId } },
+      { $pull: { reactions: { _id: req.params.reactionId } } },
       { runValidators: true, new: true }
     )
       .then((thought) =>
