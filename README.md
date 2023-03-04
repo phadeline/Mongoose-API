@@ -33,7 +33,7 @@ Afterwards, the user must install the packages associated with this project by t
 Lastly, the user can seed the data by typing "node utils/seed.js" and then type "npm start".
 
 ## Usage
-- Here is a demonstration of the app: [Video](https://drive.google.com/file/d/1VpJ5s-RENnvjRs2TVgt6lRnhWA6V-txb/view)
+- Here is a demonstration of the app: [Video](https://drive.google.com/file/d/13pA0Ep44ebdLJLr7Vvo8LSZs2nKnDts7/view)
 
 ## Tests
 
